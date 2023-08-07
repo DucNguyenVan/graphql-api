@@ -14,10 +14,26 @@ module Types
       "Hello World!"
     end
 
-    field :sites, [Types::SiteType], null: false
+    field :sites, [Types::SiteType], null: false do
+      argument :id, ID, required: false
+    end
 
-    def sites
-      Site.all
+    def sites(**args)
+      if args[:id]
+        Site.where(id: args[:id]).limit(10)
+      else
+        Site.all
+      end
+    end
+
+    field :test_2, String, null: false
+    def test_2
+      {}.to_json
+    end
+
+    field :test_3, String, null: false
+    def test_3
+      "helloe test3"
     end
   end
 end
